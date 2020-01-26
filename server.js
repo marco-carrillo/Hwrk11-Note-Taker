@@ -1,15 +1,11 @@
-//***********************************************/
-//  Function returns random hexadecimal key     */
-//***********************************************/
+//************************************************************************************************************************/
+//  Function returns random hexadecimal key.  Used to create unique keys for the notes, generally 12 characters long     */
+//************************************************************************************************************************/
 function randomValueHex (len) {
     return crypto.randomBytes(Math.ceil(len/2))
         .toString('hex') // convert to hexadecimal format
         .slice(0,len);   // return required number of characters
 }
-
-//*********************************************************************/
-//  Function to be executed when path requested is DELETE /api/notes  */
-//*********************************************************************/
 
 //*******************************************************/
 //  Main server functionality.  Setting dependencies    */
@@ -52,7 +48,6 @@ app.get('/assets/js/index.js',function(req,res){
     res.sendFile(path.join(__dirname, "/public/assets/js/index.js"));
 });
 
-
 //******************************************************************************/
 //  Setting all API GET routes to serve data to the application per requests
 //******************************************************************************/
@@ -75,9 +70,9 @@ app.post('/api/notes',function(req,res){
     allNotes=JSON.parse(fs.readFileSync(path.join(__dirname,'/db/db.json'),'utf8'));    // Reading the existing JSON file into an array
     allNotes.push(newNote);                                                             // Adding the new note into the new array
     fs.writeFileSync(path.join(__dirname,'/db/db.json'),JSON.stringify(allNotes));      // Writting new file to hard disc
-    console.log(`Note id ${newNote.id} successfully added to the JSON file`);           // Success message    
+    console.log(`Note id ${newNote.id} successfully added to the JSON file`);           // Success message
+    return res.json(200);                                                               // Sending success status    
 });
-
 
 //******************************************************************************/
 //  Setting all API DELETE routes to serve data to the application per requests
@@ -91,6 +86,7 @@ app.delete('/api/notes/:id',function(req,res){
     };
     fs.writeFileSync(path.join(__dirname,'/db/db.json'),JSON.stringify(allNotes));      // Writing changes to disk
     console.log(`Request to eliminate array ${idToDelete} has been fulfilled`);
+    return res.json(200);                                                               // Sending success status    
 });
 
 //**********************/
