@@ -50,7 +50,6 @@ module.exports=function(app){
     //  UI has identified ID of record to be eliminated
     //******************************************************************************/
     app.delete('/api/notes/:id',function(req,res){
-        console.log(req.params);
         let idToDelete = req.params.id;                                                     // Reading ID of note to delete
         allNotes=JSON.parse(fs.readFileSync(path.join(__dirname,'../db/db.json'),'utf8'));  // Reading the existing JSON file into an array
         for(let i=0;i<allNotes.length;i++){
